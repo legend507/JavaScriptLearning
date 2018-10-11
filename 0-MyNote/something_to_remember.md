@@ -124,3 +124,46 @@ game();
     console.log(score >= 5 - goodLuck);
 })(5);
 ```
+
+# Apply, Call, Bind for functions
+Apply, call and bind are used to change 'this' in one object so that this object's functions can tale another object as its 'this'.
+``` js
+// Base code, note that john has presentation function but emily does not.
+var john = {
+    name: 'John',
+    age: 26,
+    job: 'teacher',
+    presentation: function(style, timeOfDay) {
+        if (style === 'formal') {
+            console.log('Good ' + timeOfDay + ', Ladies and gentlemen! I\'m ' +  this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old.');
+        } else if (style === 'friendly') {
+            console.log('Hey! What\'s up? I\'m ' +  this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay + '.');
+        }
+    }
+};
+
+var emily = {
+    name: 'Emily',
+    age: 35,
+    job: 'designer'
+};
+```
+## Call
+To use johb's presentation function on emily. 
+``` js
+john.presentation.call(emily, 'friendly', 'afternoon');
+```
+## Apply
+Don't understand this. Supposed to be very similar to Call.
+## Bind
+Attention, bind does NOT immediately call the function, but instead generate `a copy of the function`.
+``` js
+// to bind the first parameter 
+var johnFriendly = john.presentation.bind(john, 'friendly');
+johnFriendly('morning');
+johnFriendly('night');
+
+// to bind the john's presentation function to emily, with first parameter fixed
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('afternoon');
+```
