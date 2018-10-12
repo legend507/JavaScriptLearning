@@ -475,49 +475,46 @@ c) correct answer (I would use a number for this)
 */
 
 (function() {
+    /**
+     * Declaration 
+     * @param {*} question 
+     * @param {*} answers 
+     * @param {*} correct 
+     */
     function Question(question, answers, correct) {
         this.question = question;
         this.answers = answers;
         this.correct = correct;
-
-        /**
-         * 1st way,
-         *  declare a function inside function Question declaration
-         *  extend Question object by adding a new function, and ensure future instance of Question has this method
-         */
-        this.displayQuestion = function() {
-            console.log(this.question);
-
-            for (var i = 0; i < this.answers.length; i++) {
-                console.log(i + ': ' + this.answers[i]);
-            }
-        }
-
-        /*
-        this.checkAnswer = function(ans) {
-            if (ans === this.correct) {
-                console.log('Correct answer!');
-    
-            } else {
-                console.log('Wrong answer. Try again :)')
-            }
-        }
-        */
     }
 
-    /***
-     * 2nd way,
-     * to add the function into function Question's prototype
-     */
-    Question.prototype.checkAnswer = function(ans) {
+    Question.prototype.displayQuestion = function() {
+        console.log(this.question);
+
+        for (var i = 0; i < this.answers.length; i++) {
+            console.log(i + ': ' + this.answers[i]);
+        }
+    }
+
+    Question.prototype.checkAnswer = function(ans, callback) {
+        var sc;
+        
         if (ans === this.correct) {
             console.log('Correct answer!');
-
+            sc = callback(true);
         } else {
-            console.log('Wrong answer. Try again :)')
+            console.log('Wrong answer. Try again :)');
+            sc = callback(false);
         }
+        
+        this.displayScore(sc);
     }
 
+    Question.prototype.displayScore = function(score) {
+        console.log('Your current score is: ' + score);
+        console.log('------------------------------');
+    }
+    /****************************** */    
+    
     var q1 = new Question('Is JavaScript the coolest programming language in the world?',
                           ['Yes', 'No'],
                           0);
@@ -529,14 +526,40 @@ c) correct answer (I would use a number for this)
     var q3 = new Question('What does best describe coding?',
                           ['Boring', 'Hard', 'Fun', 'Tediuos'],
                           2);
-
+    
     var questions = [q1, q2, q3];
+    
+    // this function is called only once, it returns another func, and keeps sc as score tracker
+    function score() {
+        var sc = 0;
+        return function(correct) {
+            if (correct) {
+                sc++;
+            }
+            return sc;
+        }
+    }
 
-    var n = Math.floor(Math.random() * questions.length);
+    // keepScore is a function, takes in True or False as input parameter
+    var keepScore = score();
+    
+    
+    function nextQuestion() {
 
-    questions[n].displayQuestion();
+        var n = Math.floor(Math.random() * questions.length);
+        questions[n].displayQuestion();
 
-    var answer = parseInt(prompt('Please select the correct answer.'));
+        var answer = prompt('Please select the correct answer.');
 
-    questions[n].checkAnswer(answer);
+        if(answer !== 'exit') {
+            questions[n].checkAnswer(parseInt(answer), keepScore);
+            
+            // this is called for the 2nd, 3rd, 4th, ... questions
+            nextQuestion();
+        }
+    }
+    
+    // this is called only once
+    nextQuestion();
+    
 })();

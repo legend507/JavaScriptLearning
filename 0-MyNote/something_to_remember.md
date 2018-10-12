@@ -1,6 +1,7 @@
 ---
 __About Markdown Language :)__
-Refer to __[demo](https://markdown-it.github.io/) for more information.
+
+Refer to [demo](https://markdown-it.github.io/) for more information.
 ---
 
 # Constructor function
@@ -109,7 +110,7 @@ console.log(arrayCalc(arr, fn));
 ```
 
 # Immediately Invoked Function Expression (IIFE)
-More like a coding style thing. But IIFE is said to offer high privacy. `Don't know how...`
+More like a coding style thing. But IIFE is said to offer high privacy.
 ``` js
 // conventional way to define and call a function
 function game() {
@@ -120,6 +121,7 @@ game();
 
 // IIFE way of calling a function. This function can not be re-called else where.
 (function (goodLuck) {
+    // in this way, the score can not be accessed from outside of ()(5);, aka. Data Privacy
     var score = Math.random() * 10;
     console.log(score >= 5 - goodLuck);
 })(5);
@@ -167,3 +169,74 @@ johnFriendly('night');
 var emilyFormal = john.presentation.bind(emily, 'formal');
 emilyFormal('afternoon');
 ```
+
+# ES6(ES2015) new features
+## variable defination
+Up until this point, I'm writting in ES5.
+``` js
+// In ES5, variables are declared as var
+var name = 'Jane Smith';
+var age = 23;
+name = 'Jane CHEN';     // we can change this var!
+```
+ES6 the var is not used, instead use "const" and "let".
+
+Attention, const and let are "block scoped" (only accessible in a {}) while var is "function scoped" (accessible in whole function).
+
+This ES6 feature improves data privacy. (variables can NOT be accessed from outside of {}).
+`我感觉ES6和C++的变量定义很像。`
+``` js
+// In ES6, variables are declared as following
+const name = 'Jane Smith';  // const is new in ES6
+let age = 23;               // let is var
+name = 'Jane CHEN';         // <- Error!
+```
+
+## Arrow function
+For array manipulation, there is a new "arrow funtion" in arsenal.
+``` js
+const years = [1, 2, 3, 4, 5];
+
+// in ES5
+// age will be an array of [2016 - 1, 2016 - 2, ...]
+var age5 = years.map(function(el) {
+    return 2016 - el;
+});
+console.log(age5);
+
+// in ES6, there is a new "arrow function"
+const age6 = years.map(el => 2016 - el);
+console.log(age6);
+// another example
+const age6_2 = years.map((el, index) => {
+    const now = new Date().getFullYear();
+    const age = now - el;
+    return `Age element ${index + 1}: ${age}`;
+});
+console.log(age6_2);
+```
+Also arrow function shares the "this" variable with its surrandings.
+``` js
+// in ES5
+const box = {
+    color: 'green',
+    position: 1,
+    clickMe: function() {
+        document.querySelector('.green').addEventListener('click', function() {
+            var str = 'color is ' + this.color;     // <- Error! Undefined.
+        });
+    }
+};
+
+// in ES6
+const box = {
+    color: 'green',
+    position: 1,
+    clickMe: function() {
+        document.querySelector('.green').addEventListener('click', () => {
+            var str = 'color is ' + this.color;     // <- OK!
+        });
+    }
+};
+```
+
