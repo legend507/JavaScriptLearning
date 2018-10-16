@@ -126,6 +126,33 @@ game();
     console.log(score >= 5 - goodLuck);
 })(5);
 ```
+Another example of why IIFE offers data privacy.
+``` js
+/***
+ * an example of IIFE, this example demostrate how to offer data privacy
+ *  in browser console, budgetController.x will be undefined
+ * budgetController can be considered a class equivalent in C++
+ *  */ 
+var budgetController = (function() {
+    // equal to private members in C++
+    var x = 23;
+    var add = function(a) {
+        return a + x;
+    };
+
+    // equal to public members in C++
+    return {
+        // publicTest is visible from outside, while x and add is NOT
+        publicTest: function(b) {
+            console.log(add(b));
+        }
+    };
+})();   // <- attention: do not forget ()
+
+/**
+ * in browser console, budgetController.publicTest(5) will return 28
+ */
+```
 
 # Apply, Call, Bind for functions
 Apply, call and bind are used to change 'this' in one object so that this object's functions can tale another object as its 'this'.

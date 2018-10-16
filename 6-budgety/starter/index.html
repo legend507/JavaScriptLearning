@@ -40,12 +40,16 @@
         <div class="bottom">
             <div class="add">
                 <div class="add__container">
-                    <select class="add__type">
+                    <!-- this is +/- option box -->
+                    <select class="add__type">      
                         <option value="income" selected>+</option>
                         <option value="expense">-</option>
                     </select>
+                    <!-- this is text box that a user can add some text -->
                     <input type="text" class="add__description" placeholder="Add description">
+                    <!-- this is the value box, user add value in the box -->
                     <input type="number" class="add__value" placeholder="Value">
+                    <!-- the check button -->
                     <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
                 </div>
             </div>
@@ -56,7 +60,7 @@
                     
                     <div class="income__list">
                        
-                        <!--
+                        <!-- Example of an income record
                         <div class="item clearfix" id="income-0">
                             <div class="item__description">Salary</div>
                             <div class="right clearfix">
