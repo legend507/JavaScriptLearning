@@ -266,4 +266,5 @@ const box = {
     }
 };
 ```
+# Event delegation & DOM traversing
 
