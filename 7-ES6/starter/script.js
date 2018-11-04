@@ -24,7 +24,7 @@ const box_blue = {
 
             // a loop to traverse all 3 boxes
             for (const curBox of Array.from(boxes)) {
-                if(curBox.className === 'box blue') {
+                if(curBox.className === 'box blue') {       // leave the blue box text unchanged
                     continue;
                 }
                 curBox.textContent = 'oh, I\'m blue...';
